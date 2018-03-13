@@ -5,9 +5,10 @@
  */
 package game;
 
-import java.text.DecimalFormat;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JLabel;
 
 /**
  *
@@ -17,6 +18,7 @@ public class WeightArray {
     private ArrayList weights;
     private String name;
     private String valuesText;
+    private JLabel valueDisplay;
     
     public WeightArray(int[] neurons){
         //[6, 2]
@@ -29,6 +31,7 @@ public class WeightArray {
         valuesText = "";
         initWeights();
         nameUpdate();
+        valueDisplay = new JLabel("");
     }
     
     public void newLayer(int x, int y){
@@ -61,17 +64,17 @@ public class WeightArray {
     public double[] propagate(double[] inputs){
         double[] values = null;
         
-        valuesText = "";
+        valuesText = "<html>";
         for (int i = 0; i < inputs.length; i++){
             addValuesText("[" + String.format("%.2f", inputs[i]) + "]");
         }
-        addValuesText("\n");
+        addValuesText("<br><br>");
         
         for (int i = 0; i < getSize(); i++){
             inputs = feedForward(inputs, getLayer(i), i);
         }
+        addValuesText("</html>");
         
-        System.out.println(valuesText);
         values = inputs;
         return values;
     }
@@ -83,7 +86,7 @@ public class WeightArray {
             values[i] = sigmoid(sumDotProduct(inputs, layer[i], num));
             addValuesText("[" + String.format("%.2f", values[i]) + "]");
         }
-        addValuesText("\n");
+        addValuesText("<br><br>");
         return values;
     }
     
@@ -116,7 +119,7 @@ public class WeightArray {
     public void printShape(){
         printNL();
         
-        for (int x = 0; x < 6; x++){
+        for (int x = 0; x < 8; x++){
             printNeuron();
         }
         System.out.print(" (input)");

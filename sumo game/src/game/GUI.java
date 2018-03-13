@@ -26,9 +26,16 @@ public class GUI extends JFrame {
         
         this.world = world;
         this.view = view;
+        this.setSize(1000,500);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationByPlatform(true);
+        this.add(view);
+        this.setResizable(false);
+        
         
         score = new JLabel("" + world.getPlayers()[0].getScore() + " - " + world.getPlayers()[1].getScore());
-        add(score); //displays current score at top of window
+        //add(score); //displays current score at top of window
+        this.setVisible(true);
     }
     
     public void updateScore(){

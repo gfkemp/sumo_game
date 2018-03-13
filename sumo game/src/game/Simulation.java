@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package game;
+import java.awt.FlowLayout;
 import java.util.Random;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -17,7 +20,6 @@ public class Simulation {
     private NNetwork[] generation;
     private int genNo;
     private int roundNo;
-    //private 
     
     public Simulation(GameWorld world, Rikishi player1, Rikishi player2, int generationSize){
         this.world = world;
@@ -73,7 +75,7 @@ public class Simulation {
                 case 1:
                     newGen[count] = new NNetwork(null, null, null, generation[i].getName());
                     newGen[count].setWeights(generation[i].getWeights());
-                    if (r.nextDouble() > 0.5){
+                    if (r.nextDouble() > 0.2){
                         newGen[count].mutateNet();
                     } else {
                         newGen[count].getWeightArray().initWeights();
@@ -83,7 +85,7 @@ public class Simulation {
                     break;
                 case 0:
                     newGen[count] = new NNetwork(null, null, null, "_");
-                    newGen[count].mutateNet();
+                    newGen[count].initNet("");
                     count++;
                     break;
             }

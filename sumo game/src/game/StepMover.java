@@ -6,7 +6,11 @@
 package game;
 
 import city.cs.engine.*;
+import java.awt.FlowLayout;
 import java.awt.event.KeyListener;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 /**
  * step listener designed to check if either player is knocked out of the ring and to act accordingly
@@ -21,11 +25,13 @@ public class StepMover implements StepListener {
     private SimulationSettings sim;
     private boolean reset = false;
     private float resetCount = 1;
-    private float movementCount = 1;
-    private float timeBeforeDraw = 50;
+    private float movementCount = 20;
+    private float timeBeforeDraw = 100;
     private float timer = timeBeforeDraw;
     private KeyListener controller;
     private static final float SPEED = 50f;
+    private JFrame roundDisplay;
+    private JLabel textArea;
     
     public StepMover(GUI gui, Rikishi[] players, GameWorld world, Dohyo dohyo) {
         this.player1 = players[0];
@@ -35,6 +41,17 @@ public class StepMover implements StepListener {
         this.gui = gui;
         sim = new SimulationSettings(60);
         controller = gui.getKeyListeners()[0];
+        
+        roundDisplay = new JFrame("neurons");
+        roundDisplay.setSize(400, 300);
+        roundDisplay.setLayout(new FlowLayout());
+        
+        textArea = new JLabel("");  
+        textArea.setBounds(10, 10,300, 100);
+        
+        roundDisplay.add(textArea);
+        //roundDisplay.pack();
+        roundDisplay.setVisible(true);
     }
     
     @Override
@@ -43,6 +60,9 @@ public class StepMover implements StepListener {
     @Override
     public void postStep(StepEvent e) {
         
+        textArea.setText(player1.getBrain().getNNet().getWeightArray().getValuesText());
+        roundDisplay.setTitle(player1.getBrain().getNNet().getWeightArray().getName());
+        
         checkIntersect();
         
         movementCount--;
@@ -50,7 +70,7 @@ public class StepMover implements StepListener {
         if (movementCount <= 0){
             movementA();
             movementB();
-            movementCount = 1;
+            movementCount = 20;
         }
         //System.out.println(player1.getLinearVelocity().lengthSquared() + player1.getLinearVelocity().lengthSquared());
         if((player1.getLinearVelocity().lengthSquared() + player1.getLinearVelocity().lengthSquared()) < 0.5){
@@ -150,18 +170,21 @@ public class StepMover implements StepListener {
             player1.getBrain().getNNet().setScore(1);
             player2.getBrain().getNNet().setScore(1);
             //player2.die();
+            System.out.println("Draw!");
         }
         
         if (player1.getPosition().lengthSquared() < player2.getPosition().lengthSquared()){
             player1.getBrain().getNNet().setScore(2);
             player2.getBrain().getNNet().setScore(0);
             player2.die();
+            System.out.println("Player 1 wins by proximity!");
         }
         
         if (player1.getPosition().lengthSquared() > player2.getPosition().lengthSquared()){
             player1.getBrain().getNNet().setScore(0);
             player2.getBrain().getNNet().setScore(2);
             player1.die();
+            System.out.println("Player 1 wins by proximity!");
         }
         
         /*
@@ -173,9 +196,6 @@ public class StepMover implements StepListener {
         }*/
         
         //player1.die();
-        
-        
-        System.out.println("Draw!");
     }
     
     public void reset(){

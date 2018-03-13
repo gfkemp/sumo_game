@@ -28,9 +28,9 @@ public class NNetwork {
         this.opponent = opponent;
         this.name = name;
         
-        inputs = new double[6];
+        inputs = new double[8];
         //updateInputs();
-        int[] neurons = {6, 10, 4, 2};
+        int[] neurons = {8, 10, 4, 2};
         weightArray = new WeightArray(neurons);
         
         if (!name.equals("")) {setName(name);}
@@ -64,9 +64,11 @@ public class NNetwork {
         inputs[0] = (player.getPosition().x) / 20;
         inputs[1] = (player.getPosition().y) / 20;
         inputs[2] = ((player.getFixedAngle()) / (Math.PI)) - 1;
-        inputs[3] = (opponent.getPosition().x) / 20;
-        inputs[4] = (opponent.getPosition().y) / 20;
-        inputs[5] = ((opponent.getFixedAngle()) / (Math.PI)) - 1;
+        inputs[3] = (player.getLinearVelocity().lengthSquared())/500;
+        inputs[4] = (opponent.getPosition().x) / 20;
+        inputs[5] = (opponent.getPosition().y) / 20;
+        inputs[6] = ((opponent.getFixedAngle()) / (Math.PI)) - 1;
+        inputs[7] = (opponent.getLinearVelocity().lengthSquared())/500;
     }
     
     public int[] forwardPass(int[] keys){

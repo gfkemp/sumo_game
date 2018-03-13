@@ -25,18 +25,18 @@ public class Game {
         
         gui = new GUI(world, view);
 
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        /*gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setLocationByPlatform(true);
         // display the world in the window
         gui.add(view);
         // don't let the game window be resized
-        gui.setResizable(false);
+        gui.setResizable(false);*/
         
         gui.addKeyListener(new Controller(world.getPlayers())); //creates controller to allow user control
         
         world.addStepListener(new StepMover(gui, world.getPlayers(), world, world.getDohyo()));
-        gui.setSize(500,550);
-        gui.setVisible(true);
+        //gui.setSize(1000,500);
+        //gui.setVisible(true);
         // start!
         world.start();
     }
