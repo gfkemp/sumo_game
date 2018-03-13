@@ -25,8 +25,8 @@ public class StepMover implements StepListener {
     private SimulationSettings sim;
     private boolean reset = false;
     private float resetCount = 1;
-    private float movementCount = 20;
-    private float timeBeforeDraw = 100;
+    private float movementCount = 1;
+    private float timeBeforeDraw = 50;
     private float timer = timeBeforeDraw;
     private KeyListener controller;
     private static final float SPEED = 50f;
@@ -73,7 +73,7 @@ public class StepMover implements StepListener {
             movementCount = 20;
         }
         //System.out.println(player1.getLinearVelocity().lengthSquared() + player1.getLinearVelocity().lengthSquared());
-        if((player1.getLinearVelocity().lengthSquared() + player1.getLinearVelocity().lengthSquared()) < 0.5){
+        if((player1.getLinearVelocity().lengthSquared() + player2.getLinearVelocity().lengthSquared()) < 0.5){
             timer--;
         }
         
@@ -184,7 +184,7 @@ public class StepMover implements StepListener {
             player1.getBrain().getNNet().setScore(0);
             player2.getBrain().getNNet().setScore(2);
             player1.die();
-            System.out.println("Player 1 wins by proximity!");
+            System.out.println("Player 2 wins by proximity!");
         }
         
         /*

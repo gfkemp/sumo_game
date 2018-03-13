@@ -73,6 +73,7 @@ public class WeightArray {
         for (int i = 0; i < getSize(); i++){
             inputs = feedForward(inputs, getLayer(i), i);
         }
+        
         addValuesText("</html>");
         
         values = inputs;
@@ -83,7 +84,12 @@ public class WeightArray {
         double[] values = new double[layer.length];
         
         for (int i = 0; i < values.length; i++){
-            values[i] = sigmoid(sumDotProduct(inputs, layer[i], num));
+            
+            if (i < values.length -1){
+                values[i] = sumDotProduct(inputs, layer[i], num);
+            } else {
+                values[i] = sigmoid(sumDotProduct(inputs, layer[i], num));
+            }
             addValuesText("[" + String.format("%.2f", values[i]) + "]");
         }
         addValuesText("<br><br>");

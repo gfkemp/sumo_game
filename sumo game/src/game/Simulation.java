@@ -71,6 +71,10 @@ public class Simulation {
                     newGen[count] = new NNetwork(null, null, null, generation[i].getName());
                     newGen[count].setWeights(generation[i].getWeights());
                     count++;
+                    newGen[count] = new NNetwork(null, null, null, generation[i].getName());
+                    newGen[count].setWeights(generation[i].getWeights());
+                    newGen[count].mutateNet();
+                    count++;
                     break;
                 case 1:
                     newGen[count] = new NNetwork(null, null, null, generation[i].getName());
@@ -79,14 +83,11 @@ public class Simulation {
                         newGen[count].mutateNet();
                     } else {
                         newGen[count].getWeightArray().initWeights();
-                        newGen[count].getWeightArray().setName("*");
+                        newGen[count].getWeightArray().setName("");
                     }
                     count++;
                     break;
                 case 0:
-                    newGen[count] = new NNetwork(null, null, null, "_");
-                    newGen[count].initNet("");
-                    count++;
                     break;
             }
         }

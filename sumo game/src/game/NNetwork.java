@@ -30,7 +30,7 @@ public class NNetwork {
         
         inputs = new double[8];
         //updateInputs();
-        int[] neurons = {8, 10, 4, 2};
+        int[] neurons = {8, 8, 8, 8, 8, 8, 8, 8, 8, 2};
         weightArray = new WeightArray(neurons);
         
         if (!name.equals("")) {setName(name);}
@@ -91,8 +91,8 @@ public class NNetwork {
         A = values[0];
         B = values[1];
         
-        keys[0] = (A >= 0.66) ? 2 : (A <= 0.33) ? 0 : 1;
-        keys[1] = (B >= 0.66) ? 2 : (B <= 0.33) ? 0 : 1;
+        keys[0] = (A >= 0.5) ? 2 : (A <= -0.5) ? 0 : 1;
+        keys[1] = (B >= 0.5) ? 2 : (B <= -0.5) ? 0 : 1;
         
         //System.out.println(A + " " + B + " " + Arrays.toString(keys));
         
