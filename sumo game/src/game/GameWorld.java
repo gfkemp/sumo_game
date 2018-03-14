@@ -28,7 +28,7 @@ public class GameWorld extends World {
         
         initBodies();
         
-        simulation = new Simulation(this, players[0], players[1], 16);
+        simulation = new Simulation(this, players[0], players[1], 4);
         System.out.println("new game");
         simulation.runGen();
         players[0].getBrain().getNNet().getWeightArray().printShape();

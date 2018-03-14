@@ -51,7 +51,7 @@ public class StepMover implements StepListener {
         
         roundDisplay.add(textArea);
         //roundDisplay.pack();
-        roundDisplay.setVisible(true);
+        //roundDisplay.setVisible(true);
     }
     
     @Override
@@ -148,7 +148,7 @@ public class StepMover implements StepListener {
         /*
         victor.addScore();
         gui.updateScore(); */
-        victor.getBrain().getNNet().setScore(2);
+        victor.getBrain().getNNet().incScore(2);
         
         reset = true;
         
@@ -167,22 +167,22 @@ public class StepMover implements StepListener {
         reset = true;
         
         if (player1.getPosition().lengthSquared() == player2.getPosition().lengthSquared()){
-            player1.getBrain().getNNet().setScore(1);
-            player2.getBrain().getNNet().setScore(1);
+            player1.getBrain().getNNet().incScore(1);
+            player2.getBrain().getNNet().incScore(1);
             //player2.die();
             System.out.println("Draw!");
         }
         
         if (player1.getPosition().lengthSquared() < player2.getPosition().lengthSquared()){
-            player1.getBrain().getNNet().setScore(2);
-            player2.getBrain().getNNet().setScore(0);
+            player1.getBrain().getNNet().incScore(2);
+            player2.getBrain().getNNet().incScore(0);
             player2.die();
             System.out.println("Player 1 wins by proximity!");
         }
         
         if (player1.getPosition().lengthSquared() > player2.getPosition().lengthSquared()){
-            player1.getBrain().getNNet().setScore(0);
-            player2.getBrain().getNNet().setScore(2);
+            player1.getBrain().getNNet().incScore(0);
+            player2.getBrain().getNNet().incScore(2);
             player1.die();
             System.out.println("Player 2 wins by proximity!");
         }

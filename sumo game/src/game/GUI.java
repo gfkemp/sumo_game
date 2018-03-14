@@ -26,7 +26,7 @@ public class GUI extends JFrame {
         
         this.world = world;
         this.view = view;
-        this.setSize(1000,500);
+        this.setSize(500,500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationByPlatform(true);
         this.add(view);

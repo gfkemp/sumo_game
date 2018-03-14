@@ -30,7 +30,7 @@ public class NNetwork {
         
         inputs = new double[8];
         //updateInputs();
-        int[] neurons = {8, 8, 8, 8, 8, 8, 8, 8, 8, 2};
+        int[] neurons = {8, 8, 2};
         weightArray = new WeightArray(neurons);
         
         if (!name.equals("")) {setName(name);}
@@ -123,6 +123,10 @@ public class NNetwork {
     
     public void setScore(int score){
         this.score = score;
+    }
+    
+    public void incScore(int inc){
+        this.score =+ inc;
     }
     
     public void setWeights(ArrayList weights){

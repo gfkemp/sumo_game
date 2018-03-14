@@ -20,6 +20,8 @@ public class Simulation {
     private NNetwork[] generation;
     private int genNo;
     private int roundNo;
+    int rematchNo = 4;
+    int rematches = 0;
     
     public Simulation(GameWorld world, Rikishi player1, Rikishi player2, int generationSize){
         this.world = world;
@@ -41,9 +43,15 @@ public class Simulation {
     public void runGen(){
         if (generation.length%2 != 0) throw new IllegalArgumentException("generation is an odd number");
         
-        if (roundNo == generation.length/2){
+        if (roundNo == generation.length/2 && rematches < rematchNo){
+            generation = shuffle(generation);
+            roundNo = 0;
+            rematches++;
+            System.out.println("REMATCH " + rematches);
+        } else if (roundNo*2 == generation.length){
             genNo++;
             roundNo = 0;
+            rematches = 0;
             newGen();
         }
         
@@ -64,33 +72,24 @@ public class Simulation {
         
         NNetwork[] newGen = new NNetwork[generation.length];
         int count = 0;
-        for (int i = 0; i < generation.length; i++){
+        for (int i = 0; i < generation.length/2; i++){
             
-            switch (generation[i].getScore()){
-                case 2:
-                    newGen[count] = new NNetwork(null, null, null, generation[i].getName());
-                    newGen[count].setWeights(generation[i].getWeights());
-                    count++;
-                    newGen[count] = new NNetwork(null, null, null, generation[i].getName());
-                    newGen[count].setWeights(generation[i].getWeights());
-                    newGen[count].mutateNet();
-                    count++;
-                    break;
-                case 1:
-                    newGen[count] = new NNetwork(null, null, null, generation[i].getName());
-                    newGen[count].setWeights(generation[i].getWeights());
-                    if (r.nextDouble() > 0.2){
-                        newGen[count].mutateNet();
-                    } else {
-                        newGen[count].getWeightArray().initWeights();
-                        newGen[count].getWeightArray().setName("");
-                    }
-                    count++;
-                    break;
-                case 0:
-                    break;
+            NNetwork highScore = new NNetwork(null, null, null, "");
+            
+            for (NNetwork net : generation){
+                if (highScore.getScore() < net.getScore()){
+                    highScore = net;
+                    net.setScore(0);
+                }
             }
+            
+            newGen[i] = highScore;
+            newGen[i+generation.length/2] = new NNetwork(null, null, null, highScore.getName());
+            newGen[i+generation.length/2].setWeights(highScore.getWeights());
+            newGen[i+generation.length/2].mutateNet();
         }
+        
+        
         
         if (newGen.length != generation.length) throw new IllegalArgumentException("miscounted generations?");
         
