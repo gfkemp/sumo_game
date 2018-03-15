@@ -20,9 +20,9 @@ public class Simulation {
     private NNetwork[] generation;
     private int genNo;
     private int roundNo;
-    int rematchNo = 5;
+    int rematchNo = 3;
     int rematches = 0;
-    int freshNo = 8;
+    int freshNo = 33;
     
     public Simulation(GameWorld world, Rikishi player1, Rikishi player2, int generationSize){
         this.world = world;
