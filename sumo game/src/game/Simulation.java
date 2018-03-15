@@ -20,8 +20,9 @@ public class Simulation {
     private NNetwork[] generation;
     private int genNo;
     private int roundNo;
-    int rematchNo = 4;
+    int rematchNo = 5;
     int rematches = 0;
+    int freshNo = 8;
     
     public Simulation(GameWorld world, Rikishi player1, Rikishi player2, int generationSize){
         this.world = world;
@@ -69,31 +70,23 @@ public class Simulation {
     
     public void newGen(){
         Random r = new Random();
+        System.out.print("\n");
         
-        NNetwork[] newGen = new NNetwork[generation.length];
-        int count = 0;
-        for (int i = 0; i < generation.length/2; i++){
-            
-            NNetwork highScore = new NNetwork(null, null, null, "");
-            
-            for (NNetwork net : generation){
-                if (highScore.getScore() < net.getScore()){
-                    highScore = net;
-                    net.setScore(0);
-                }
-            }
-            
-            newGen[i] = highScore;
-            newGen[i+generation.length/2] = new NNetwork(null, null, null, highScore.getName());
-            newGen[i+generation.length/2].setWeights(highScore.getWeights());
-            newGen[i+generation.length/2].mutateNet();
+        insertionSort(generation, generation.length-1);
+        printScoreBoard(generation);
+        
+        for (int i = 0; i < (generation.length/2) ; i++){
+            generation[i].setScore(0);
+            generation[i+generation.length/2] = new NNetwork(null, null, null, generation[i].getName());
+            generation[i+generation.length/2].setWeights(generation[i].getWeights());
+            generation[i+generation.length/2].mutateNet();
         }
         
+        for (int i = 0; i < freshNo; i++){
+            generation[generation.length - (i+1)] = new NNetwork(null, null, null, genNo + "." + i);
+        }
         
-        
-        if (newGen.length != generation.length) throw new IllegalArgumentException("miscounted generations?");
-        
-        generation = shuffle(newGen);
+        generation = shuffle(generation);
     }
     
     public NNetwork[] shuffle(NNetwork[] array){
@@ -110,4 +103,34 @@ public class Simulation {
         
         return array;
     }
+
+    private void insertionSort(NNetwork[] A, int n) {
+        //insertion sort [from wikipedia pseudocode]
+        if (n > 0){
+            insertionSort(generation, n-1);
+            NNetwork x = A[n];
+            int j = n - 1;
+            while (j >= 0 && A[j].getScore() < x.getScore()){
+                A[j+1] = A[j];
+                j--;
+            }
+            A[j+1] = x;
+        }
+    }
+
+    private void printScoreBoard(NNetwork[] A) {
+        int nameLength = 0;
+        System.out.println("GENERATION " + (genNo-1) + " SCORES:");
+        for (NNetwork net : A){
+            if (nameLength < net.getName().length()){
+                nameLength = net.getName().length();
+            }
+        }
+        
+        for (NNetwork net : A){
+            String space = new String(new char[nameLength - net.getName().length()]).replace("\0", " ");
+            System.out.println(net.getName() + space + " | " + net.getScore());
+        }
+        System.out.print("\n");
+        }
 }
