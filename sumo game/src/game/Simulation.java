@@ -22,7 +22,7 @@ public class Simulation {
     private int roundNo;
     int rematchNo = 3;
     int rematches = 0;
-    int freshNo = 33;
+    int freshNo = 5;
     
     public Simulation(GameWorld world, Rikishi player1, Rikishi player2, int generationSize){
         this.world = world;
