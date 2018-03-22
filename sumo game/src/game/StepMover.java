@@ -51,7 +51,7 @@ public class StepMover implements StepListener {
         
         roundDisplay.add(textArea);
         //roundDisplay.pack();
-        //roundDisplay.setVisible(true);
+        roundDisplay.setVisible(true);
     }
     
     @Override
