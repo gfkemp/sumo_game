@@ -70,10 +70,10 @@ public class StepMover implements StepListener {
         if (movementCount <= 0){
             movementA();
             movementB();
-            movementCount = 20;
+            movementCount = 1;
         }
         //System.out.println(player1.getLinearVelocity().lengthSquared() + player1.getLinearVelocity().lengthSquared());
-        if((player1.getLinearVelocity().lengthSquared() + player2.getLinearVelocity().lengthSquared()) < 0.5){
+        if((player1.getLinearVelocity().lengthSquared() + player2.getLinearVelocity().lengthSquared()) < 0.1){
             timer--;
         }
         
@@ -175,13 +175,11 @@ public class StepMover implements StepListener {
         
         if (player1.getPosition().lengthSquared() < player2.getPosition().lengthSquared()){
             player1.getBrain().getNNet().incScore(2);
-            player2.getBrain().getNNet().incScore(0);
             player2.die();
             System.out.println("Player 1 wins by proximity!");
         }
         
         if (player1.getPosition().lengthSquared() > player2.getPosition().lengthSquared()){
-            player1.getBrain().getNNet().incScore(0);
             player2.getBrain().getNNet().incScore(2);
             player1.die();
             System.out.println("Player 2 wins by proximity!");

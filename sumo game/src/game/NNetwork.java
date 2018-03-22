@@ -26,11 +26,11 @@ public class NNetwork {
         this.brain = brain;
         this.player = player;
         this.opponent = opponent;
-        this.name = name;
+        //this.name = name;
         
         inputs = new double[8];
         //updateInputs();
-        int[] neurons = {8, 8, 2};
+        int[] neurons = {8, 8, 8, 8, 8, 2};
         weightArray = new WeightArray(neurons);
         
         if (!name.equals("")) {setName(name);}
@@ -126,7 +126,7 @@ public class NNetwork {
     }
     
     public void incScore(int inc){
-        this.score =+ inc;
+        this.score = this.score + inc;
     }
     
     public void setWeights(ArrayList weights){
