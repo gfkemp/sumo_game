@@ -15,43 +15,32 @@ import org.jbox2d.common.Vec2;
  */
 public class GameWorld extends World {
     
-    private Rikishi[] players;
-    private Dohyo dohyo;
-    private Confetti[] confetti;
-    private Simulation simulation;
+    //private Rikishi[] players;
+    //private Dohyo dohyo;
+    //private Simulation simulation;
+    private Mode mode;
+    private UserView view;
+    private GUI gui;
+    private Game game;
     
-    public GameWorld() {
+    public GameWorld(Game game) {
         super();
-        
-        players = new Rikishi[2];
-        confetti = new Confetti[30]; //number of particles spawned on player death
-        
-        initBodies();
-        
-        simulation = new Simulation(this, players[0], players[1], 20);
-        System.out.println("new game");
-        simulation.runGen();
-        //players[0].getBrain().getNNet().getWeightArray().printShape();
-        
+        this.game = game;
+        view = new UserView(this, 500, 500);
+        gui = new GUI(this, view);
+        newMenu();
     }
     
     public Rikishi[] getPlayers(){
-        return players;
+        return mode.getPlayers();
     }
     
     public Dohyo getDohyo(){
-        return dohyo;
-    }
-    
-    public Confetti[] getConfetti(){
-        return confetti;
-    }
-    
-    public void setConfetti(Confetti[] confetti){
-        this.confetti = confetti;
+        return mode.getDohyo();
     }
     
     public void initBodies(){ //create bodies
+        /*
         players[0] = new Rikishi(this, 1, "two node");
         players[1] = new Rikishi(this, 2, "two node");
         placeBodies();
@@ -60,16 +49,21 @@ public class GameWorld extends World {
         
         dohyo = new Dohyo(this);
         dohyo.setPosition(new Vec2(0, 0));
+        */
+        
+        mode.initBodies(mode.getPlayer1Type(), mode.getPlayer2Type());
     }
     
     public void placeBodies(){ //replace bodies in start position
-        players[0].setPosition(new Vec2(-7f, 0));
+        /** players[0].setPosition(new Vec2(-7f, 0));
         players[0].setAngle(0);
         setStill(players[0]);
         
         players[1].setPosition(new Vec2(7f, 0));
         players[1].setAngle(3.14f);
-        setStill(players[1]);
+        setStill(players[1]); **/
+        
+        mode.placeBodies();
     }
     
     public void setStill(Rikishi player){
@@ -77,7 +71,50 @@ public class GameWorld extends World {
         player.setLinearVelocity(new Vec2(0, 0));
     }
     
+    public void newSimMode(){
+        mode = null;
+        mode = new SimMode(this, "two node");
+        mode.initSimulation();
+    } 
+    
+    public void newMenu(){
+        mode = new Menu(this, "");
+        mode.addListeners();
+    } 
+    
     public Simulation getSimulation(){
-        return simulation;
+        return mode.getSimulation();
+    }
+    
+    public Mode getMode(){
+        return mode;
+    }
+    
+    public void setMode(Mode mode){
+        this.mode = mode;
+    }
+
+    public UserView getView() {
+        return view;
+    }
+
+    public void setView(UserView view) {
+        this.view = view;
+    }
+
+    public GUI getGui() {
+        return gui;
+    }
+
+    public void setGui(GUI gui) {
+        this.gui = gui;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

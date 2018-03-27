@@ -18,12 +18,12 @@ public class Game {
     public Game() {
 
         // make the world
-        world = new GameWorld();
+        world = new GameWorld(this);
 
         // make a view
-        view = new UserView(world, 500, 500);
         
-        gui = new GUI(world, view);
+        
+        
 
         /*gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setLocationByPlatform(true);
@@ -32,9 +32,7 @@ public class Game {
         // don't let the game window be resized
         gui.setResizable(false);*/
         
-        gui.addKeyListener(new Controller(world.getPlayers())); //creates controller to allow user control
-        
-        world.addStepListener(new StepMover(gui, world.getPlayers(), world, world.getDohyo()));
+        //addListeners();
         //gui.setSize(1000,500);
         //gui.setVisible(true);
         // start!
@@ -44,5 +42,10 @@ public class Game {
     /** Run the game. */
     public static void main(String[] args) {
         new Game();
+    }
+    
+    public void addListeners(){
+        world.getGui().addKeyListener(new Controller(world.getPlayers())); //creates controller to allow user control
+        world.addStepListener(new StepMover(gui, world.getPlayers(), world, world.getDohyo()));
     }
 }

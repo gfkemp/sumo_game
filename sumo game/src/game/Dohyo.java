@@ -46,4 +46,8 @@ public class Dohyo extends DynamicBody {
         setFillColor(victor.getColor());
         setLineColor(victor.getDColor());
     }
+    
+    public void destroyFixture(){
+        logo.destroy();
+    }
 }

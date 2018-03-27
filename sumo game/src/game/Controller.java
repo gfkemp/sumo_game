@@ -26,6 +26,11 @@ public class Controller extends KeyAdapter{
         this.player2 = players[1];
     }
     
+    public void setPlayers(Rikishi[] players){
+        this.player1 = players[0];
+        this.player2 = players[1];
+    }
+    
     @Override
     public void keyPressed(KeyEvent e) {
         if (run){
@@ -33,6 +38,9 @@ public class Controller extends KeyAdapter{
             if (code == KeyEvent.VK_Q) { // Q = quit
                 System.exit(0);
             } 
+            if (code == KeyEvent.VK_S) {
+                player1.getWorld().getMode().newSimMode();
+            }
             
             player1Movement(code);
             player2Movement(code);

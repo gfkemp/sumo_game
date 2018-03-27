@@ -30,7 +30,7 @@ public class NNetwork {
         
         inputs = new double[8];
         //updateInputs();
-        int[] neurons = {8, 8, 8, 8, 8, 2};
+        int[] neurons = {8, 6, 2};
         weightArray = new WeightArray(neurons);
         
         if (!name.equals("")) {setName(name);}

@@ -33,7 +33,7 @@ public class GUI extends JFrame {
         this.setResizable(false);
         
         
-        score = new JLabel("" + world.getPlayers()[0].getScore() + " - " + world.getPlayers()[1].getScore());
+        score = new JLabel(""); // + world.getPlayers()[0].getScore() + " - " + world.getPlayers()[1].getScore());
         //add(score); //displays current score at top of window
         this.setVisible(true);
     }

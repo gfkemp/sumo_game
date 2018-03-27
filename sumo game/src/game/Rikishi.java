@@ -109,17 +109,7 @@ public final class Rikishi extends DynamicBody {
     }
     
     public void die(){
-        
-        Confetti[] confetti;
-        confetti = world.getConfetti();
-        
-        for (int i = 0; i < confetti.length; i++){
-            confetti[i] = new Confetti(world, dcolor, lcolor, getLinearVelocity());
-            confetti[i].setPosition(getPosition());
-        }
         setPosition(new Vec2(100, 100));
-        
-        world.setConfetti(confetti);
     }
     
     public Color getColor(){
@@ -140,5 +130,9 @@ public final class Rikishi extends DynamicBody {
             angle = 2*Math.PI - Math.abs(angle)%(2*Math.PI);
         }
         return angle;
+    }
+    
+    public GameWorld getWorld(){
+        return world;
     }
 }

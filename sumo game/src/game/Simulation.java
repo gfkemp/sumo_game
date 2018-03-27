@@ -22,7 +22,7 @@ public class Simulation {
     private int roundNo;
     int rematchNo = 3;
     int rematches = 0;
-    int freshNo = 5;
+    int freshNo = 2;
     
     public Simulation(GameWorld world, Rikishi player1, Rikishi player2, int generationSize){
         this.world = world;
@@ -66,6 +66,11 @@ public class Simulation {
         System.out.printf("Generation: " + genNo + " Round: " + roundNo + " | " 
                 + player1.getBrain().getNNet().getName() + " vs "
                 + player2.getBrain().getNNet().getName() + " | ");
+        
+        /**
+        if (world.getMode().getSettingChange()){
+            changeSettings();
+        }**/
     }
     
     public void newGen(){
@@ -132,5 +137,9 @@ public class Simulation {
             System.out.println(net.getName() + space + " | " + net.getScore());
         }
         System.out.print("\n");
-        }
+    }
+    
+    public void changeSettings(){
+        System.out.println("i want to change settings");
+    }
 }
