@@ -25,4 +25,9 @@ public class Menu extends Mode {
         simMode.initSimulation();
         world.setMode(simMode);
     }
+    
+    @Override
+    public void gui(){
+        world.getGui().menu();
+    }
 }

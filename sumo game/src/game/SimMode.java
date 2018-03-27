@@ -34,6 +34,8 @@ public class SimMode extends Mode {
         roundDisplay.add(textArea);
         roundDisplay.setVisible(true);
         
+        //settings.setVisible(true);
+        
         //addListeners();
         
         simulation = new Simulation(world, players[0], players[1], 8);
@@ -181,5 +183,20 @@ public class SimMode extends Mode {
     @Override
     public boolean getSettingChange(){
         return settingChange;
+    }
+    
+    @Override
+    public void gui(){
+        world.getGui().simulation();
+    }
+    
+    @Override
+    public void displaySettings(){
+        settings = new JFrame("Settings");
+        settings.setSize(250, 500);
+        settings.setLayout(new FlowLayout());
+        
+        System.out.println("display settings");
+        settings.setVisible(true);
     }
 }

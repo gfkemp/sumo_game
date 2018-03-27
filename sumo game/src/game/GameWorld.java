@@ -29,6 +29,7 @@ public class GameWorld extends World {
         view = new UserView(this, 500, 500);
         gui = new GUI(this, view);
         newMenu();
+        //newSimMode();
     }
     
     public Rikishi[] getPlayers(){
@@ -39,30 +40,11 @@ public class GameWorld extends World {
         return mode.getDohyo();
     }
     
-    public void initBodies(){ //create bodies
-        /*
-        players[0] = new Rikishi(this, 1, "two node");
-        players[1] = new Rikishi(this, 2, "two node");
-        placeBodies();
-        players[0].setOpponent(players[1]);
-        players[1].setOpponent(players[0]);
-        
-        dohyo = new Dohyo(this);
-        dohyo.setPosition(new Vec2(0, 0));
-        */
-        
+    public void initBodies(){
         mode.initBodies(mode.getPlayer1Type(), mode.getPlayer2Type());
     }
     
-    public void placeBodies(){ //replace bodies in start position
-        /** players[0].setPosition(new Vec2(-7f, 0));
-        players[0].setAngle(0);
-        setStill(players[0]);
-        
-        players[1].setPosition(new Vec2(7f, 0));
-        players[1].setAngle(3.14f);
-        setStill(players[1]); **/
-        
+    public void placeBodies(){
         mode.placeBodies();
     }
     

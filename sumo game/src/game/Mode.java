@@ -33,6 +33,7 @@ public abstract class Mode {
     protected StepMover stepMover;
     protected static final float SPEED = 50f;
     protected JFrame roundDisplay;
+    protected JFrame settings;
     protected JLabel textArea;
     
     public Mode(GameWorld world, String player1Type, String player2Type){
@@ -41,6 +42,7 @@ public abstract class Mode {
         this.player2Type = player2Type;
         this.modeName = "mode blank";
         initBodies(player1Type, player2Type);
+        gui();
     }
     
     public Mode(GameWorld world, String player1Type){
@@ -48,6 +50,7 @@ public abstract class Mode {
         this.player1Type = player1Type;
         this.player2Type = player1Type;
         initBodies(player1Type, player2Type);
+        gui();
     }
     
     public void initBodies(String player1Type, String player2Type){ //create bodies
@@ -79,9 +82,11 @@ public abstract class Mode {
         player.setLinearVelocity(new Vec2(0, 0));
     }
     
-    public void nextMode(Mode mode){
-        world.setMode(mode);
-        addListeners();
+    public void returnToMenu(){
+        destroyBodies();
+        Menu menu = new Menu(world, "");
+        menu.changeListeners(controller, stepMover);
+        world.setMode(menu);
     }
     
     public void addListeners(){
@@ -100,6 +105,10 @@ public abstract class Mode {
         
         this.controller.setPlayers(players);
         this.stepMover.setBodies(players, dohyo);
+    }
+    
+    public void gui(){
+        
     }
     
     public Simulation getSimulation(){
@@ -205,5 +214,8 @@ public abstract class Mode {
         players[1].destroy();
         dohyo.destroyFixture();
         dohyo.destroy();
+    }
+
+    public void displaySettings(){
     }
 }
