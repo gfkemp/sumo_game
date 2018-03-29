@@ -30,6 +30,7 @@ public class GameWorld extends World {
         gui = new GUI(this, view);
         newMenu();
         //newSimMode();
+        //gui.addKeyListener(new Controller(this, mode.getPlayers()));
     }
     
     public Rikishi[] getPlayers(){
@@ -55,14 +56,16 @@ public class GameWorld extends World {
     
     public void newSimMode(){
         mode = null;
-        mode = new SimMode(this, "two node");
+        //mode = new SimMode(this, "two node", "", );
         mode.initSimulation();
     } 
     
     public void newMenu(){
         mode = new Menu(this, "");
-        mode.addListeners();
-    } 
+        mode.initBodies(mode.getPlayer1Type(), mode.getPlayer2Type());
+        //gui.addKeyListener(new Controller(this, getPlayers())); //creates controller to allow user control
+        addStepListener(new StepMover(gui, getPlayers(), this, getDohyo()));
+    }
     
     public Simulation getSimulation(){
         return mode.getSimulation();

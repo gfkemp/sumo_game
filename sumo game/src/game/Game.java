@@ -22,7 +22,7 @@ public class Game {
 
         // make a view
         
-        
+        world.getGui().addKeyListener(new Controller(world, world.getPlayers()));
         
 
         /*gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,7 +45,7 @@ public class Game {
     }
     
     public void addListeners(){
-        world.getGui().addKeyListener(new Controller(world.getPlayers())); //creates controller to allow user control
-        world.addStepListener(new StepMover(gui, world.getPlayers(), world, world.getDohyo()));
+        world.getGui().addKeyListener(new Controller(world, world.getPlayers())); //creates controller to allow user control
+        //world.addStepListener(new StepMover(gui, world.getPlayers(), world, world.getDohyo()));
     }
 }

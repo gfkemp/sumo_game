@@ -38,7 +38,9 @@ public class StepMover implements StepListener {
         this.world = world;
         this.dohyo = dohyo;
         this.gui = gui;
-        controller = gui.getKeyListeners()[0];
+        //controller = new Controller(world, world.getPlayers());
+        //world.getGui().addKeyListener(controller);
+        System.out.println("Stepmover constructed");
     }
     
     @Override

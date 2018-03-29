@@ -21,6 +21,7 @@ public class NNetwork {
     private WeightArray weightArray;
     private double[][] weights;
     private int score = 0;
+    private int depth;
     
     public NNetwork(Brain brain, Rikishi player, Rikishi opponent, String name){
         this.brain = brain;
@@ -30,7 +31,15 @@ public class NNetwork {
         
         inputs = new double[8];
         //updateInputs();
-        int[] neurons = {8, 6, 2};
+        depth = (int) (Math.random()*4);
+        int[] neurons = new int[2 + depth];
+        neurons[0] = 8;
+        neurons[neurons.length - 1] = 2;
+        
+        for (int i = 1; i < neurons.length-1; i++){
+            neurons[i] = (int) (Math.random()*6 + 2);
+        }
+        
         weightArray = new WeightArray(neurons);
         
         if (!name.equals("")) {setName(name);}
@@ -147,5 +156,13 @@ public class NNetwork {
 
     public WeightArray getWeightArray() {
         return weightArray; //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Rikishi getOpponent() {
+        return opponent;
+    }
+
+    public void setOpponent(Rikishi opponent) {
+        this.opponent = opponent;
     }
 }

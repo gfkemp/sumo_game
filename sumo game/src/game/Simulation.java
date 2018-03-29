@@ -20,9 +20,9 @@ public class Simulation {
     private NNetwork[] generation;
     private int genNo;
     private int roundNo;
-    int rematchNo = 3;
+    int rematchNo = 2;
     int rematches = 0;
-    int freshNo = 2;
+    int freshNo = 3;
     
     public Simulation(GameWorld world, Rikishi player1, Rikishi player2, int generationSize){
         this.world = world;
@@ -48,7 +48,7 @@ public class Simulation {
             generation = shuffle(generation);
             roundNo = 0;
             rematches++;
-            System.out.println("REMATCH " + rematches);
+            world.getMode().addToLog("REMATCH " + rematches + "\n");
         } else if (roundNo*2 == generation.length){
             genNo++;
             roundNo = 0;
@@ -63,10 +63,11 @@ public class Simulation {
         player2.getBrain().setNNet(generation[roundNo * 2 + 1]);
         roundNo++;
         
-        System.out.printf("Generation: " + genNo + " Round: " + roundNo + " | " 
+        world.getMode().addToLog("Generation: " + genNo + " Round: " + roundNo + " | " 
                 + player1.getBrain().getNNet().getName() + " vs "
                 + player2.getBrain().getNNet().getName() + " | ");
         
+        world.getMode().updateLog();
         /**
         if (world.getMode().getSettingChange()){
             changeSettings();
@@ -125,7 +126,7 @@ public class Simulation {
 
     private void printScoreBoard(NNetwork[] A) {
         int nameLength = 0;
-        System.out.println("GENERATION " + (genNo-1) + " SCORES:");
+        world.getMode().addToLog("\nGENERATION " + (genNo-1) + " SCORES: \n");
         for (NNetwork net : A){
             if (nameLength < net.getName().length()){
                 nameLength = net.getName().length();
@@ -133,10 +134,13 @@ public class Simulation {
         }
         
         for (NNetwork net : A){
-            String space = new String(new char[nameLength - net.getName().length()]).replace("\0", " ");
-            System.out.println(net.getName() + space + " | " + net.getScore());
+            String space = "";
+            for (int i = 0; i < (nameLength - net.getName().length()); i++){
+                space = space + "  ";
+            }
+            world.getMode().addToLog(net.getName() + space + " | " + net.getScore() + "\n");
         }
-        System.out.print("\n");
+        world.getMode().addToLog("\n");
     }
     
     public void changeSettings(){

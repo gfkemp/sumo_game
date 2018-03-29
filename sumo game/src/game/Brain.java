@@ -39,6 +39,9 @@ public class Brain {
     
     public void setOpponent(Rikishi opponent){
         this.opponent = opponent;
+        if (nNet != null){
+            nNet.setOpponent(opponent);
+        }
     }
     
     public void movement(int code){
@@ -53,6 +56,8 @@ public class Brain {
             case "player 2":
                 keys = player2(code, keys);
                 break;
+            case "dead":
+                break;
             case "charge":
                 keys = charge(keys);
                 break;
@@ -66,6 +71,9 @@ public class Brain {
                 keys = chaser(keys);
                 break;
             case "two node":
+                keys = twoNode(keys);
+                break;
+            case "random nodes":
                 keys = twoNode(keys);
                 break;
             case "debug":
@@ -113,30 +121,7 @@ public class Brain {
                 keys[1] = 2;
             } else if (code == KeyEvent.VK_A) {
                 keys[1] = 0;
-            }
-       
-        /*
-        double desiredAngle = Math.atan((player.getPosition().y / player.getPosition().x));
-        if (player.getPosition().x >= 0){
-            desiredAngle = desiredAngle + Math.PI;
-        } else if (player.getPosition().x < 0 && player.getPosition().y >= 0){
-            desiredAngle = (desiredAngle + 2*Math.PI);
         }
-        
-        double minOppositeAngle = (desiredAngle - Math.PI);
-        double maxOppositeAngle = (desiredAngle + Math.PI);
-        
-        double angle = player.getAngle()%(2*Math.PI);
-        if (angle < 0){
-            angle = 2*Math.PI - Math.abs(angle)%(2*Math.PI);
-        }
-        
-        double difference = (angle - desiredAngle);
-        if (player.getPosition().x < 0){
-            difference = (angle - desiredAngle);
-        }
-        System.out.printf("position: (%.2f, %.2f) | angle: %.2f | desired angle: %.2f, %.2f, %.2f | difference: %.2f | %s \n", player.getPosition().x, player.getPosition().y, angle, minOppositeAngle, desiredAngle, maxOppositeAngle, difference, mode);
-        */
         
         lastKeyEvent = code;
         return keys;
@@ -257,7 +242,7 @@ public class Brain {
             mode = "halt";
         }
         
-        System.out.printf("position: (%.2f, %.2f) | angle: %.2f | desired angle: %.2f, %.2f, %.2f | %s \n", player.getPosition().x, player.getPosition().y, angle, minOppositeAngle, desiredAngle, maxOppositeAngle, mode);
+        //System.out.printf("position: (%.2f, %.2f) | angle: %.2f | desired angle: %.2f, %.2f, %.2f | %s \n", player.getPosition().x, player.getPosition().y, angle, minOppositeAngle, desiredAngle, maxOppositeAngle, mode);
         
         switch (mode){
             case "init":
@@ -334,7 +319,7 @@ public class Brain {
             mode = "halt";
         }
         
-        System.out.printf("position: (%.2f, %.2f) | angle: %.2f | desired angle: %.2f, %.2f, %.2f | %s \n", player.getPosition().x, player.getPosition().y, angle, minOppositeAngle, desiredAngle, maxOppositeAngle, mode);
+        //System.out.printf("position: (%.2f, %.2f) | angle: %.2f | desired angle: %.2f, %.2f, %.2f | %s \n", player.getPosition().x, player.getPosition().y, angle, minOppositeAngle, desiredAngle, maxOppositeAngle, mode);
         
         switch (mode){
             case "init":
@@ -417,7 +402,7 @@ public class Brain {
             mode = "halt";
         }
         
-        System.out.printf("position: (%.2f, %.2f) (%.2f, %.2f) | angle: %.2f | desired angle: %.2f, %.2f, %.2f | %s \n", player.getPosition().x, player.getPosition().y, opponent.getPosition().x, opponent.getPosition().y, angle, minOppositeAngle, desiredAngle, maxOppositeAngle, mode);
+        //System.out.printf("position: (%.2f, %.2f) (%.2f, %.2f) | angle: %.2f | desired angle: %.2f, %.2f, %.2f | %s \n", player.getPosition().x, player.getPosition().y, opponent.getPosition().x, opponent.getPosition().y, angle, minOppositeAngle, desiredAngle, maxOppositeAngle, mode);
         //------
         if (code == 0){
             code = lastKeyEvent;

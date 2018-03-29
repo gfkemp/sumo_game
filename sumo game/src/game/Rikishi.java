@@ -110,6 +110,7 @@ public final class Rikishi extends DynamicBody {
     
     public void die(){
         setPosition(new Vec2(100, 100));
+        brain.resetMoveKeys();
     }
     
     public Color getColor(){
@@ -134,5 +135,13 @@ public final class Rikishi extends DynamicBody {
     
     public GameWorld getWorld(){
         return world;
+    }
+    
+    public void changeBrain(String braintype){
+        this.brain = new Brain(this, world, braintype);
+        
+        if (braintype.equals("random nodes")){
+            brain.setNNet(new NNetwork(this.brain, this, this.opponent, "jeff"));
+        }
     }
 }

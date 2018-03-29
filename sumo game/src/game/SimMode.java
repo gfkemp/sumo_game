@@ -5,48 +5,98 @@
  */
 package game;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  *
  * @author gregclemp
  */
-public class SimMode extends Mode {
+public class SimMode extends Mode implements ActionListener{
     
     private boolean settingChange = false;
+    private JButton[] buttons;
     
-    public SimMode(GameWorld world, String playerType){
-        super(world, playerType);
+    public SimMode(GameWorld world, String playerType, String playerType2, Rikishi[] players, Dohyo dohyo){
+        super(world, playerType, playerType, players, dohyo);
         this.modeName = "sim";
+        
+        
     }
     
     @Override
     public void initSimulation(){
-        roundDisplay = new JFrame("neurons");
-        roundDisplay.setSize(400, 300);
-        roundDisplay.setLayout(new FlowLayout());
+        logDisplay = new JFrame("log");
+        logDisplay.setSize(400, 300);
+        logDisplay.setLayout(new BorderLayout());
         
-        textArea = new JLabel("");  
-        textArea.setBounds(10, 10,300, 100);
+        logArea = new JTextArea(log);
+        logArea.setEditable(false);
         
-        roundDisplay.add(textArea);
-        roundDisplay.setVisible(true);
+        logPane = new JScrollPane(logArea);
+        logPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         
-        //settings.setVisible(true);
+        logDisplay.add(logPane);
+        logDisplay.setVisible(true);
         
-        //addListeners();
+        player1Display = new JFrame("neurons");
+        player1Display.setSize(400, 300);
+        player1Display.setLayout(new FlowLayout());
         
-        simulation = new Simulation(world, players[0], players[1], 8);
+        player1Text = new JLabel("");  
+        player1Text.setBounds(10, 10,300, 100);
+        
+        player1Display.add(player1Text);
+        
+        player2Display = new JFrame("neurons");
+        player2Display.setSize(400, 300);
+        player2Display.setLayout(new FlowLayout());
+        
+        player2Text = new JLabel("");  
+        player2Text.setBounds(10, 10,300, 100);
+        
+        player2Display.add(player2Text);
+        
+        settings = new JFrame("Settings");
+        settings.setSize(250, 500);
+        settings.setLayout(new FlowLayout());
+        
+        buttons = new JButton[3];
+        
+        buttons[0] = new JButton("Display Player 1 Values");
+        settings.add(buttons[0]);
+        buttons[0].setActionCommand("Display Player 1 Values");
+        buttons[0].addActionListener(this);
+        
+        buttons[1] = new JButton("Display Player 2 Values");
+        settings.add(buttons[1]);
+        buttons[1].setActionCommand("Display Player 2 Values");
+        buttons[1].addActionListener(this);
+        
+        buttons[2] = new JButton("Display Log");
+        settings.add(buttons[2]);
+        buttons[2].setActionCommand("Display Log");
+        buttons[2].addActionListener(this);
+        
+        simulation = new Simulation(world, players[0], players[1], 16);
         System.out.println("new game");
         simulation.runGen();
     }
     
     @Override
     public void stepMover(){
-        textArea.setText(players[0].getBrain().getNNet().getWeightArray().getValuesText());
-        roundDisplay.setTitle(players[0].getBrain().getNNet().getWeightArray().getName());
+        player1Text.setText(players[0].getBrain().getNNet().getWeightArray().getValuesText());
+        player1Display.setTitle(players[0].getBrain().getNNet().getWeightArray().getName());
+        
+        player2Text.setText(players[1].getBrain().getNNet().getWeightArray().getValuesText());
+        player2Display.setTitle(players[1].getBrain().getNNet().getWeightArray().getName());
         
         checkIntersect();
         
@@ -78,6 +128,7 @@ public class SimMode extends Mode {
         }
     }
     
+    @Override
     public void checkIntersect(){ //checks if the players do not intersect with the ring every tick
         if (!reset){
             if (!players[0].intersects(dohyo)){ 
@@ -87,7 +138,8 @@ public class SimMode extends Mode {
             }
         }
     }
-    
+        
+    @Override
     public void movementA(){
         int[] keys;
         players[0].getBrain().movement(0);
@@ -107,6 +159,7 @@ public class SimMode extends Mode {
         }
     }
     
+    @Override    
     public void movementB(){
         int[] keys;
         players[1].getBrain().movement(0);
@@ -126,6 +179,7 @@ public class SimMode extends Mode {
         }
     }
     
+    @Override
     public void roundOver(Rikishi victor, Rikishi loser){
         /*
         victor.addScore();
@@ -142,7 +196,7 @@ public class SimMode extends Mode {
             loser.getBrain().getNNet().mutateNet();
         } */
         loser.die();
-        System.out.println("Player " + victor.getPlayerNum() + " wins!"); //score: " + players[0].getScore() + " - " + players[1].getScore());
+        addToLog("Player " + victor.getPlayerNum() + " wins!"); //score: " + players[0].getScore() + " - " + players[1].getScore());
     }
     
     public void draw(){
@@ -152,23 +206,26 @@ public class SimMode extends Mode {
             players[0].getBrain().getNNet().incScore(1);
             players[1].getBrain().getNNet().incScore(1);
             //players[1].die();
-            System.out.println("Draw!");
+            addToLog("Draw!");
         }
         
         if (players[0].getPosition().lengthSquared() < players[1].getPosition().lengthSquared()){
             players[0].getBrain().getNNet().incScore(2);
             players[1].die();
-            System.out.println("Player 1 wins by proximity!");
+            addToLog("Player 1 wins by proximity!");
         }
         
         if (players[0].getPosition().lengthSquared() > players[1].getPosition().lengthSquared()){
             players[1].getBrain().getNNet().incScore(2);
             players[0].die();
-            System.out.println("Player 2 wins by proximity!");
+            addToLog("Player 2 wins by proximity!");
         }
     }
     
+    @Override
     public void reset(){
+        addToLog("\n");
+        updateLog();
         world.placeBodies();
         world.getSimulation().runGen();
         players[0].getBrain().resetMoveKeys();
@@ -192,11 +249,29 @@ public class SimMode extends Mode {
     
     @Override
     public void displaySettings(){
-        settings = new JFrame("Settings");
-        settings.setSize(250, 500);
-        settings.setLayout(new FlowLayout());
-        
         System.out.println("display settings");
         settings.setVisible(true);
+    }
+    
+    @Override
+    public void closeFrames(){
+        settings.setVisible(false);
+        player1Display.setVisible(false);
+        player2Display.setVisible(false);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (null != e.getActionCommand()) switch (e.getActionCommand()) {
+            case "Display Player 1 Values":
+                player1Display.setVisible(true);
+                break;
+            case "Display Player 2 Values":
+                player2Display.setVisible(true);
+                break;
+            case "Display Log":
+                logDisplay.setVisible(true);
+                break;
+        }
     }
 }

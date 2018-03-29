@@ -16,14 +16,17 @@ import java.awt.event.KeyEvent;
  */
 public class Controller extends KeyAdapter{
     
+    private GameWorld world;
     private Rikishi player1;
     private Rikishi player2;
     private static final float SPEED = 50f;
     private boolean run = true;
     
-    public Controller(Rikishi[] players) {
+    public Controller(GameWorld world, Rikishi[] players) {
+        //this.world = world;
         this.player1 = players[0];
         this.player2 = players[1];
+        System.out.println("Controller constructed");
     }
     
     public void setPlayers(Rikishi[] players){
@@ -33,19 +36,14 @@ public class Controller extends KeyAdapter{
     
     @Override
     public void keyPressed(KeyEvent e) {
-        if (run){
-            int code = e.getKeyCode();
-            if (code == KeyEvent.VK_Q) { // Q = quit
-                System.exit(0);
-            } 
-            if (code == KeyEvent.VK_S) {
-                player1.getWorld().getMode().newSimMode();
-            }
-            
-            player1Movement(code);
-            player2Movement(code);
-            
+        int code = e.getKeyCode();
+        if (code == KeyEvent.VK_Q) { // Q = quit
+            System.exit(0);
         }
+        System.out.println(code);
+        //world.getMode().playerMovement(code);
+        player1Movement(code);
+        player2Movement(code);
     }
     
     public void player1Movement(int code){

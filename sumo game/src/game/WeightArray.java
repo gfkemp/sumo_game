@@ -74,9 +74,22 @@ public class WeightArray {
             inputs = feedForward(inputs, getLayer(i), i);
         }
         
+        values = inputs;
+        
+        if (values[0] > 0.5){
+            addValuesText("Forward ");
+        } else if (values[0] <= -0.5){
+            addValuesText("Stop ");
+        }
+        
+        if (values[1] > 0.5){
+            addValuesText("Left ");
+        } else if (values[1] <= -0.5){
+            addValuesText("Right ");
+        }
+        
         addValuesText("</html>");
         
-        values = inputs;
         return values;
     }
     
