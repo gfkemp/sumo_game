@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
- *
+ * Extension of Mode, last level of the Campaign branch that repeats indefinitely creating random AIs to challenge the user
  * @author gregclemp
  */
 public class TheTower extends Mode {

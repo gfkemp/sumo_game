@@ -10,7 +10,7 @@ import java.awt.Color;
 import org.jbox2d.common.Vec2;
 
 /**
- *
+ * Extension of World, initialises UserView, GUI and Mode
  * @author gregclemp
  */
 public class GameWorld extends World {

@@ -3,16 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/gregclemp/Documents/GitHub/sumo_game/sumo%20game/src/game/LevelOne.java</file>
-            <file>file:/Users/gregclemp/Documents/GitHub/sumo_game/sumo%20game/src/game/Controller.java</file>
-            <file>file:/Users/gregclemp/Documents/GitHub/sumo_game/sumo%20game/src/game/StepMover.java</file>
-            <file>file:/Users/gregclemp/Documents/GitHub/sumo_game/sumo%20game/src/game/GUI.java</file>
-            <file>file:/Users/gregclemp/Documents/GitHub/sumo_game/sumo%20game/src/game/GameWorld.java</file>
-            <file>file:/Users/gregclemp/Documents/GitHub/sumo_game/sumo%20game/src/game/SimMode.java</file>
-            <file>file:/Users/gregclemp/Documents/GitHub/sumo_game/sumo%20game/src/game/Menu.java</file>
+            <file>file:/Users/gregclemp/Documents/GitHub/sumo_game/sumo%20game/src/game/NNetwork.java</file>
             <file>file:/Users/gregclemp/Documents/GitHub/sumo_game/sumo%20game/src/game/Simulation.java</file>
             <file>file:/Users/gregclemp/Documents/GitHub/sumo_game/sumo%20game/src/game/Rikishi.java</file>
-            <file>file:/Users/gregclemp/Documents/GitHub/sumo_game/sumo%20game/src/game/Mode.java</file>
+            <file>file:/Users/gregclemp/Documents/GitHub/sumo_game/sumo%20game/src/game/Brain.java</file>
         </group>
     </open-files>
 </project-private>

@@ -17,19 +17,29 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 /**
- *
+ * Extension of JFrame that generates a GUI for the Modes
  * @author gregclemp
  */
 public class GUI extends JFrame implements ActionListener{
     
     final private GameWorld world;
     final private UserView view;
+    /**
+    * JPanel containing the game
+    */
     private JPanel sumoGame;
+    /**
+    * JPanel containing the GUI elements
+    */
     private JPanel gui;
-    private JLabel score;
-    private GridBagLayout gridBagLayout;
     private JButton[] buttons; 
+    /**
+    * JLabel that displays level name
+    */
     private JLabel level;
+    /**
+    * JLabel that displays lives remaining in the campaign branch
+    */
     private JLabel lives;
     
     GUI(GameWorld world, UserView view){
@@ -53,21 +63,15 @@ public class GUI extends JFrame implements ActionListener{
         
         setResizable(false);
         
-        score = new JLabel(""); // + world.getPlayers()[0].getScore() + " - " + world.getPlayers()[1].getScore());
-        //add(score); //displays current score at top of window
         setFocusable(true);
         setVisible(true);
     }
     
-    public void updateScore(){
-        score.setText("" + world.getPlayers()[0].getScore() + " - " + world.getPlayers()[1].getScore());
-        //frame.pack();
-    }
-    
-    public JFrame getFrame(){
-        return null;
-    }
-    
+    /**
+     * Generates and displays the Menu GUI
+     * <p>
+     * Name: "Menu", two buttons, one to the Campaign branch and one to Simulation
+     */
     public void menu(){
         gui.removeAll();
         
@@ -92,6 +96,11 @@ public class GUI extends JFrame implements ActionListener{
         setVisible(true);
     }
     
+    /**
+     * Generates and displays the Simulation GUI
+     * <p>
+     * Name: "Simulation", two buttons, one back to the menu and one to open the Settings window
+     */
     public void simulation(){
         gui.removeAll();
        
@@ -116,6 +125,11 @@ public class GUI extends JFrame implements ActionListener{
         setVisible(true);
     }
     
+    /**
+     * Generates and displays the Campaign branch GUI
+     * <p>
+     * Name: current Level, one button to go back to the menu and a lives counter
+     */
     public void level(String name){
         gui.removeAll();
         
@@ -138,10 +152,16 @@ public class GUI extends JFrame implements ActionListener{
         setVisible(true);
     }
     
+    /**
+     * Display the Simulation settings window
+     */
     public void simulationSettings(){
         world.getMode().displaySettings();
     }
     
+    /**
+     * Monitors whether the buttons are pressed and changes the mode accordingly
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (null != e.getActionCommand()) switch (e.getActionCommand()) {
@@ -163,12 +183,18 @@ public class GUI extends JFrame implements ActionListener{
         }
     }
     
+    /**
+     * Removes all containers from the GUI JPanel
+     */
     public void clearGui(){
         //remove(sumoGame);
         //remove(gui);
         gui.removeAll();
     }
     
+    /**
+     * 
+     */
     public void changeLevelName(String name){
         level.setText(name);
     }

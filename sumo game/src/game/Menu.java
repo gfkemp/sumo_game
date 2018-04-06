@@ -6,7 +6,7 @@
 package game;
 
 /**
- *
+ * Extension of Mode, allows user to select between Campaign and Simulation
  * @author gregclemp
  */
 public class Menu extends Mode {

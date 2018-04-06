@@ -13,8 +13,8 @@ import static java.lang.Math.sin;
 import org.jbox2d.common.Vec2;
 
 /**
- * This is the 'player' body 
- * @author gregclemp
+ * Class for the bodies of the Sumo
+ * @author George Kemp
  */
 public final class Rikishi extends DynamicBody {
     

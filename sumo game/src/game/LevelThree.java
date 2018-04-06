@@ -6,7 +6,7 @@
 package game;
 
 /**
- *
+ * Extension of Mode, third level of the Campaign branch
  * @author gregclemp
  */
 public class LevelThree extends Mode {

@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 /**
- * step listener designed to check if either player is knocked out of the ring and to act accordingly
+ * StepListener that activates the stepMover() method in Mode every tick
  * @author gregclemp
  */
 public class StepMover implements StepListener {

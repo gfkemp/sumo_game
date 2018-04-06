@@ -11,7 +11,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
- * this allows for keyboard input and control of both characters
+ * Extension of KeyAdapter to allow keyboard input
  * @author gregclemp
  */
 public class Controller extends KeyAdapter{
@@ -19,8 +19,6 @@ public class Controller extends KeyAdapter{
     private GameWorld world;
     private Rikishi player1;
     private Rikishi player2;
-    private static final float SPEED = 50f;
-    private boolean run = true;
     
     public Controller(GameWorld world, Rikishi[] players) {
         //this.world = world;
@@ -29,11 +27,21 @@ public class Controller extends KeyAdapter{
         System.out.println("Controller constructed");
     }
     
+    /**
+    * Sets player1 and player2 to the new Rikishi
+    *
+    * @param players Rikishi array containing the two new players
+    */
     public void setPlayers(Rikishi[] players){
         this.player1 = players[0];
         this.player2 = players[1];
     }
     
+    /**
+    * Passes key input to movement methods
+    *
+    * @param e Keyboard input
+    */
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -46,26 +54,21 @@ public class Controller extends KeyAdapter{
         player2Movement(code);
     }
     
+    /**
+    * Passes key input to player 1's brain to generate moveKeys
+    *
+    * @param code Keyboard input
+    */
     public void player1Movement(int code){
         player1.getBrain().movement(code);
     }
     
+    /**
+    * Passes key input to player 2's brain to generate moveKeys
+    *
+    * @param code Keyboard input
+    */
     public void player2Movement(int code){
         player2.getBrain().movement(code);
     }
-    
-    @Override
-    public void keyReleased(KeyEvent e) {
-        int code = e.getKeyCode();
-    }
-    
-    public void on(){
-        run = true;
-    }
-    
-    public void off(){
-        run = false;
-    }
-    
-    
 }

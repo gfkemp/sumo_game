@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
- *
+ * Extension of Mode, initialises the genetic algorithm simulation and its GUI
  * @author gregclemp
  */
 public class SimMode extends Mode implements ActionListener{
@@ -68,26 +68,28 @@ public class SimMode extends Mode implements ActionListener{
         settings.setSize(250, 500);
         settings.setLayout(new FlowLayout());
         
-        buttons = new JButton[3];
+        buttons = new JButton[9];
         
-        buttons[0] = new JButton("Display Player 1 Values");
-        settings.add(buttons[0]);
-        buttons[0].setActionCommand("Display Player 1 Values");
-        buttons[0].addActionListener(this);
+        button(0, "Display Player 1 Values");
+        button(1, "Display Player 2 Values");
+        button(2, "Display Log");
+        button(3, "Generation Size +2");
+        button(4, "Generation Size -2");
+        button(5, "Number of Rematches +1");
+        button(6, "Number of Rematches -1");
+        button(7, "Number of Culled Sumo +1");
+        button(8, "Number of Culled Sumo -1");
         
-        buttons[1] = new JButton("Display Player 2 Values");
-        settings.add(buttons[1]);
-        buttons[1].setActionCommand("Display Player 2 Values");
-        buttons[1].addActionListener(this);
-        
-        buttons[2] = new JButton("Display Log");
-        settings.add(buttons[2]);
-        buttons[2].setActionCommand("Display Log");
-        buttons[2].addActionListener(this);
-        
-        simulation = new Simulation(world, players[0], players[1], 16);
+        simulation = new Simulation(world, players[0], players[1], 4);
         System.out.println("new game");
         simulation.runGen();
+    }
+    
+    public void button(int i, String name){
+        buttons[i] = new JButton(name);
+        settings.add(buttons[i]);
+        buttons[i].setActionCommand(name);
+        buttons[i].addActionListener(this);
     }
     
     @Override
@@ -271,6 +273,24 @@ public class SimMode extends Mode implements ActionListener{
                 break;
             case "Display Log":
                 logDisplay.setVisible(true);
+                break;
+            case "Generation Size +2":
+                simulation.changeGenSize(2);
+                break;
+            case "Generation Size -2":
+                simulation.changeGenSize(-2);
+                break;
+            case "Number of Rematches +1":
+                simulation.changeRematchSize(1);
+                break;
+            case "Number of Rematches -1":
+                simulation.changeRematchSize(-1);
+                break;
+            case "Number of Culled Sumo +1":
+                simulation.changeFreshSize(1);
+                break;
+            case "Number of Culled Sumo -1":
+                simulation.changeFreshSize(-1);
                 break;
         }
     }

@@ -10,7 +10,7 @@ import java.awt.Color;
 import static java.awt.Color.*;
 
 /**
- * This is a dynamic body with a circular fixture with no collision that acts as the ring for the players
+ * Class for the body of the 'ring'
  * @author gregclemp
  */
 public class Dohyo extends DynamicBody {
@@ -34,6 +34,9 @@ public class Dohyo extends DynamicBody {
         displayLogo(world);
     }
     
+    /**
+    * Displays the logo image on the ring
+    */
     public void displayLogo(World world){
         logo = new DynamicBody(world);
         GhostlyFixture logoRing;
@@ -42,11 +45,19 @@ public class Dohyo extends DynamicBody {
         logo.setGravityScale(0);
     }
     
+    /**
+    * Changes the colour of the ring to correspond with the last round's victor
+    *
+    * @param victor the Rikishi that won the round
+    */
     public void roundOver(Rikishi victor){ // the colour of the ring is updated to match the previous winner
         setFillColor(victor.getColor());
         setLineColor(victor.getDColor());
     }
     
+    /**
+    * Removes the logo fixture
+    */
     public void destroyFixture(){
         logo.destroy();
     }

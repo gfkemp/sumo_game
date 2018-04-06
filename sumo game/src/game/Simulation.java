@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
 /**
- *
+ * Class that creates a 'generation' of NNetworks and puts them against one another - it also uses the NNets' fitness (score) to remove/mutate the weaker nets
  * @author gregclemp
  */
 public class Simulation {
@@ -20,9 +20,13 @@ public class Simulation {
     private NNetwork[] generation;
     private int genNo;
     private int roundNo;
-    int rematchNo = 2;
+    int rematchNo = 0;
     int rematches = 0;
-    int freshNo = 3;
+    int freshNo = 0;
+    private int changeGenNo;
+    private int changeRematchNo;
+    private int changeFreshNo;
+    boolean settingsChanged = false;
     
     public Simulation(GameWorld world, Rikishi player1, Rikishi player2, int generationSize){
         this.world = world;
@@ -54,6 +58,9 @@ public class Simulation {
             roundNo = 0;
             rematches = 0;
             newGen();
+            if (settingsChanged){
+                changeSettings();
+            }
         }
         
         if (generation[roundNo * 2] == null) throw new IllegalArgumentException("missing net at pos " + roundNo*2);
@@ -68,10 +75,7 @@ public class Simulation {
                 + player2.getBrain().getNNet().getName() + " | ");
         
         world.getMode().updateLog();
-        /**
-        if (world.getMode().getSettingChange()){
-            changeSettings();
-        }**/
+        
     }
     
     public void newGen(){
@@ -144,6 +148,64 @@ public class Simulation {
     }
     
     public void changeSettings(){
-        System.out.println("i want to change settings");
+        if (changeGenNo != 0){
+            NNetwork[] newGen = new NNetwork[generation.length + changeGenNo];
+            
+            if (generation.length > newGen.length){
+                for (int i = 0; i < newGen.length; i++){
+                    newGen[i] = generation[i];
+                }
+            } else if (generation.length < newGen.length){
+                for (int i = 0; i < generation.length; i++){
+                    newGen[i] = generation[i];
+                } 
+                for (int i = generation.length; i < newGen.length; i++){
+                    newGen[i] = new NNetwork(null, null, null, genNo + "." + i);
+                }
+            }
+            generation = newGen;
+            changeGenNo = 0;
+        }
+        
+        if (changeRematchNo != 0){
+            rematchNo = rematchNo + changeRematchNo;
+        }
+        
+        if (changeFreshNo != 0){
+            freshNo = freshNo + changeFreshNo;
+        }
+        
+        printNextSettings();
+        settingsChanged = false;
+    }
+    
+    public void changeGenSize(int num){
+        int newSize = changeGenNo + num;
+        if (newSize + generation.length > freshNo + changeFreshNo && newSize + generation.length > 0){
+            changeGenNo = changeGenNo + num;
+            settingsChanged = true;
+        }
+    }
+    
+    public void changeRematchSize(int num){
+        if (changeRematchNo + num + rematchNo >= 0){
+            changeRematchNo = changeRematchNo + num;
+            settingsChanged = true;
+        }
+    }
+    
+    public void changeFreshSize(int num){
+        int newFresh = changeFreshNo + num;
+        if (newFresh + freshNo < generation.length + changeGenNo && newFresh + freshNo >= 0){
+            changeFreshNo = newFresh;
+            settingsChanged = true;
+        }
+    }
+    
+    public void printNextSettings(){
+        int size = generation.length;
+        int rematches = rematchNo;
+        int freshMeat = freshNo;
+        world.getMode().addToLog("Generation size: " + size + "\nNumber of rematches: " + rematches + "\nNumber of Sumo culled: " + freshMeat + "\n\n");
     }
 }

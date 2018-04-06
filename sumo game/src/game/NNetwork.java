@@ -8,7 +8,7 @@ package game;
 import java.util.ArrayList;
 
 /**
- *
+ * Class that initialises the weightArray of a neural network and passes through the values for forward propagation to generate movement keys
  * @author gregclemp
  */
 public class NNetwork {

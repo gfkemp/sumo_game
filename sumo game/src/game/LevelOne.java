@@ -6,7 +6,7 @@
 package game;
 
 /**
- *
+ * Extension of Mode, first level of the Campaign branch
  * @author gregclemp
  */
 public class LevelOne extends Mode {

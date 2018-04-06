@@ -12,7 +12,7 @@ import javax.swing.JTextArea;
 import org.jbox2d.common.Vec2;
 
 /**
- *
+ * Abstract Class that handles the bodies and their interactions
  * @author gregclemp
  */
 public abstract class Mode {

@@ -11,7 +11,7 @@ import java.util.Random;
 import javax.swing.JLabel;
 
 /**
- *
+ * Class that initialises a random ArrayList of Double[][]s as the weights for a NNet and does forward propagation
  * @author gregclemp
  */
 public class WeightArray {
