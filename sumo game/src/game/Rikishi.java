@@ -72,26 +72,14 @@ public final class Rikishi extends DynamicBody {
         return opponent;
     }
     
-    public float getSpeed(){ //not used
-        return SPEED;
-    }
-    
-    public void incrementSpeed(float speed){ //not used
-        SPEED += speed;
-    }
-    
-    public void setSpeed(float speed){ //not used
-        SPEED = speed;
-    }
-    
-    public Body getBody() { //not used
-        return this;
-    }
-    
     public int getPlayerNum(){
         return playerNum;
     }
     
+    /**
+     * Calculates a position directly behind the centre of mass for applying directional forces
+     * @return Vec2 of the position
+     */
     public Vec2 getThrustPosition(){ //this is calculated because the force to move needs to be applied from behind the centre of mass
         double rotation = this.getAngle();
         float x = (float) cos(rotation);
@@ -99,7 +87,9 @@ public final class Rikishi extends DynamicBody {
         return new Vec2(2.5f*x , 2.5f*y);
     }
     
-    
+    /**
+     * Increase score by 1
+     */
     public void addScore(){
         score++;
     }
@@ -108,6 +98,9 @@ public final class Rikishi extends DynamicBody {
         return score;
     }
     
+    /**
+     * Sets the Rikishi position far outside of the UserView and resets moveKeys
+     */
     public void die(){
         setPosition(new Vec2(100, 100));
         brain.resetMoveKeys();
@@ -125,6 +118,10 @@ public final class Rikishi extends DynamicBody {
         return brain;
     }
     
+    /**
+     * An attempt to create a simple absolute function for radians without destroying information
+     * @return Value for player angle
+     */
     public double getFixedAngle(){
         double angle = this.getAngle()%(2*Math.PI);
         if (angle < 0){
@@ -137,6 +134,10 @@ public final class Rikishi extends DynamicBody {
         return world;
     }
     
+    /**
+     * Initialises and assigns a new brain
+     * @param braintype brain type to initialise
+     */
     public void changeBrain(String braintype){
         this.brain = new Brain(this, world, braintype);
         

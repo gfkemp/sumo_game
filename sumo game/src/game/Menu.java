@@ -26,6 +26,9 @@ public class Menu extends Mode {
         //changeListeners();
     }
     
+    /**
+     * Initialises SimMode and assigns it
+     */
     @Override
     public void newSimMode(){
         SimMode simMode = new SimMode(world, "two node", "", this.players, this.dohyo);
@@ -33,6 +36,9 @@ public class Menu extends Mode {
         simMode.initSimulation();
     }
     
+    /**
+     * Initialises level 1 and assigns it
+     */
     @Override
     public void newLevel(){
         LevelOne levelOne = new LevelOne(world, "", "", this.players, this.dohyo);
@@ -46,6 +52,9 @@ public class Menu extends Mode {
         world.getGui().menu();
     }
     
+    /**
+     * Method overridden and left blank to pause movement on the menu
+     */
     @Override
     public void stepMover(){
         

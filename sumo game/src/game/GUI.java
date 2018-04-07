@@ -129,6 +129,7 @@ public class GUI extends JFrame implements ActionListener{
      * Generates and displays the Campaign branch GUI
      * <p>
      * Name: current Level, one button to go back to the menu and a lives counter
+     * @param name name of the level
      */
     public void level(String name){
         gui.removeAll();
@@ -161,6 +162,8 @@ public class GUI extends JFrame implements ActionListener{
     
     /**
      * Monitors whether the buttons are pressed and changes the mode accordingly
+     * 
+     * @param e ActionEvent
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -193,12 +196,18 @@ public class GUI extends JFrame implements ActionListener{
     }
     
     /**
+     * Changes the name of the level
      * 
+     * @param name String to change level name to
      */
     public void changeLevelName(String name){
         level.setText(name);
     }
     
+    /**
+     * Updates the number of lives displayed
+     * @param noLives number of lives remaining
+     */
     public void updateLives(int noLives){
         lives.setText("Lives: " + noLives);
     }

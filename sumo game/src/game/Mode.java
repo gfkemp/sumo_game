@@ -89,6 +89,12 @@ public abstract class Mode {
         gui();
     }
     
+    /**
+     * Initialises both players and the ring
+     * 
+     * @param player1Type Brain type for player 1
+     * @param player2Type Brain type for player 2
+     */
     public void initBodies(String player1Type, String player2Type){ //create bodies
         players = new Rikishi[2];
         players[0] = new Rikishi(world, 1, player1Type);
@@ -103,6 +109,9 @@ public abstract class Mode {
         System.out.println("bodies initiated");
     }
     
+    /**
+     * Returns the players to their starting positions
+     */
     public void placeBodies(){ //replace bodies in start position
         players[0].setPosition(new Vec2(-7f, 0));
         players[0].setAngle(0);
@@ -113,11 +122,19 @@ public abstract class Mode {
         setStill(players[1]);
     }
     
+    /**
+     * Sets a player's angular and linear velocities to 0
+     * 
+     * @param player the Rikishi to be set still
+     */
     public void setStill(Rikishi player){
         player.setAngularVelocity(0f);
         player.setLinearVelocity(new Vec2(0, 0));
     }
     
+    /**
+     * Creates a new Menu Mode and assigns it
+     */
     public void returnToMenu(){
         //destroyBodies();
         log = "";
@@ -126,12 +143,18 @@ public abstract class Mode {
         world.setMode(menu);
     }
     
+    /**
+     * Creates a new Menu Mode and assigns it (after dieing on the campaign)
+     */
     public void newLossMenu(){
         Menu menu = new Menu(world, "", "", this.players, this.dohyo);
         world.setMode(menu);
         world.getGui().changeLevelName("You died! Try again?");
     }
     
+    /**
+     * Initialises Controller and StepMover
+     */
     public void addListeners(){
         controller = new Controller(world, players);
         world.getGui().addKeyListener(controller);
@@ -142,6 +165,9 @@ public abstract class Mode {
         System.out.println("listeners added");
     }
     
+    /**
+     * Replaces the players in the established Controller
+     */
     public void changeListeners(){
         controller = new Controller(world, players);
         world.getGui().removeKeyListener(world.getGui().getKeyListeners()[0]);
@@ -156,6 +182,9 @@ public abstract class Mode {
         //controller = new Controller(players); */
     }
     
+    /**
+     * Abstract method for generating the GUI of the mode
+     */
     public void gui(){
         
     }
@@ -200,6 +229,12 @@ public abstract class Mode {
         this.player2Type = player2Type;
     }
     
+    /**
+     * Returns the name of the current mode
+     * <p>
+     * Also returns and what method it was called in for debugging purposes
+     * @param location A string that gives the programmer a hint where the function was called!
+     */
     public void print(String location){
         System.out.println(modeName + " : " + location);
     }
@@ -208,6 +243,9 @@ public abstract class Mode {
         
     }
     
+    /**
+     * Handles movement
+     */
     public void stepMover(){
         checkIntersect();
         
@@ -230,6 +268,11 @@ public abstract class Mode {
         }
     }
     
+    /**
+     * Checks whether each player has stopped intersecting the ring
+     * <p>
+     * Calls roundOver(Rikishi, Rikishi) passing in the Rikishi that didn't fall out and the one that did respectively
+     */
     public void checkIntersect(){ //checks if the players do not intersect with the ring every tick
         if (!reset){
             if (!players[0].intersects(dohyo)){ 
@@ -240,6 +283,15 @@ public abstract class Mode {
         }
     }
     
+    /**
+     * Handles the movement for player 1
+     * <p>
+     * Gets moveKeys from player 1's Brain and applies physics to it accordingly:
+     * keys[0] == 2, Applies an impulse forwards
+     * keys[0] == 0, halves both the linear and angular velocity - slowing the player
+     * keys[1] == 2, applies a counterclockwise torque
+     * keys[1] == 0, applies a clockwise torque
+     */
     public void movementA(){
         int[] keys;
         //players[0].getBrain().movement(0);
@@ -259,6 +311,15 @@ public abstract class Mode {
         }
     }
     
+    /**
+     * Handles the movement for player 2
+     * <p>
+     * Gets moveKeys from player 2's Brain and applies physics to it accordingly:
+     * keys[0] == 2, Applies an impulse forwards
+     * keys[0] == 0, halves both the linear and angular velocity - slowing the player
+     * keys[1] == 2, applies a counterclockwise torque
+     * keys[1] == 0, applies a clockwise torque
+     */
     public void movementB(){
         int[] keys;
         //players[1].getBrain().movement(0);
@@ -278,6 +339,13 @@ public abstract class Mode {
         }
     }
     
+    /**
+     * Handles the end of round effects for the victor and loser
+     * <p>
+     * If the victor not the user then it calls loseLife()
+     * @param victor Rikishi that won the round
+     * @param loser Rikishi that lost the round
+     */
     public void roundOver(Rikishi victor, Rikishi loser){
         reset = true;
         
@@ -288,6 +356,9 @@ public abstract class Mode {
         loser.die();
     }
     
+    /**
+     * Calls newLevel()
+     */
     public void reset(){
         newLevel();
         
@@ -344,23 +415,38 @@ public abstract class Mode {
     public void newSimMode(){
     }
     
+    /**
+     * Abstract method that generates the next level on the campaign branch
+     */
     public void newLevel(){
         System.out.println("new level");
     }
     
+    /**
+     * Destroys all bodies, Rikishi and Dohyo
+     */
     public void destroyBodies(){
         players[0].destroy();
         players[1].destroy();
         dohyo.destroyFixture();
         dohyo.destroy();
     }
-
+    
+    /**
+     * Displays the settings frame
+    */
     public void displaySettings(){
     }
     
+    /**
+     * Closes all extra frames
+     */
     public void closeFrames(){
     }
     
+    /**
+     * Removes a life and calls newLossMenu() if you run out
+     */
     public void loseLife(){
         lives = lives - 1;
         world.getGui().updateLives(lives);
@@ -393,11 +479,18 @@ public abstract class Mode {
         players[1].getBrain().movement(code);
     }
     
+    /**
+     * Adds text to the log
+     * @param line Text to add to the log
+     */
     public void addToLog(String line){
         log = log + line;
         //System.out.println(log);
     }
     
+    /**
+     * When called the log's display is updated
+     */
     public void updateLog(){
         logArea.setText(log);
     }

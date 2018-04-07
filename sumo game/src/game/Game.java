@@ -39,7 +39,9 @@ public class Game {
         world.start();
     }
 
-    /** Run the game. */
+    /** Run the game. 
+     * @param args args
+     */
     public static void main(String[] args) {
         new Game();
     }

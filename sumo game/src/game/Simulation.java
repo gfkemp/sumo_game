@@ -39,12 +39,18 @@ public class Simulation {
         initGeneration();
     }
     
+    /**
+     * Creates an array of random NNetworks
+     */
     public void initGeneration(){
         for (int i = 0; i < generation.length; i++){
             generation[i] = new NNetwork(null, null, null, "");
         }
     }
     
+    /**
+     * Puts two NNetworks in two Rikishi and lets them fight each other
+     */
     public void runGen(){
         if (generation.length%2 != 0) throw new IllegalArgumentException("generation is an odd number");
         
@@ -78,6 +84,13 @@ public class Simulation {
         
     }
     
+    /**
+     * Handles the end of generation mutation and culling
+     * <p>
+     * The method first calls insertionSort() on the generation to sort by their scores.
+     * Then it generates a mutant copy of the top 50%.
+     * The generation is then shuffled.
+     */
     public void newGen(){
         Random r = new Random();
         System.out.print("\n");
@@ -99,6 +112,11 @@ public class Simulation {
         generation = shuffle(generation);
     }
     
+    /**
+     * Shuffling algorithm from https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+     * @param array Array to be shuffled
+     * @return shuffled array
+     */
     public NNetwork[] shuffle(NNetwork[] array){
         Random r = new Random();
         
@@ -113,7 +131,12 @@ public class Simulation {
         
         return array;
     }
-
+    
+    /**
+     * Recursive insertion sort, from pseudocode displayed https://en.wikipedia.org/wiki/Insertion_sort
+     * @param A Array to be sorted
+     * @param n Array length - 1
+     */
     private void insertionSort(NNetwork[] A, int n) {
         //insertion sort [from wikipedia pseudocode]
         if (n > 0){
@@ -127,7 +150,11 @@ public class Simulation {
             A[j+1] = x;
         }
     }
-
+    
+    /**
+     * Prints the generation scoreboard to the simulation log
+     * @param A NNetwork array
+     */
     private void printScoreBoard(NNetwork[] A) {
         int nameLength = 0;
         world.getMode().addToLog("\nGENERATION " + (genNo-1) + " SCORES: \n");
@@ -147,6 +174,9 @@ public class Simulation {
         world.getMode().addToLog("\n");
     }
     
+    /**
+     * Changes the settings
+     */
     public void changeSettings(){
         if (changeGenNo != 0){
             NNetwork[] newGen = new NNetwork[generation.length + changeGenNo];
@@ -169,16 +199,22 @@ public class Simulation {
         
         if (changeRematchNo != 0){
             rematchNo = rematchNo + changeRematchNo;
+            changeRematchNo = 0;
         }
         
         if (changeFreshNo != 0){
             freshNo = freshNo + changeFreshNo;
+            changeFreshNo = 0;
         }
         
         printNextSettings();
         settingsChanged = false;
     }
     
+    /**
+     * Increments the amount the generation will be changed by
+     * @param num either +/-2
+     */
     public void changeGenSize(int num){
         int newSize = changeGenNo + num;
         if (newSize + generation.length > freshNo + changeFreshNo && newSize + generation.length > 0){
@@ -187,6 +223,10 @@ public class Simulation {
         }
     }
     
+    /**
+     * Increments the amount the rematch number will be changed by
+     * @param num either +/-1
+     */
     public void changeRematchSize(int num){
         if (changeRematchNo + num + rematchNo >= 0){
             changeRematchNo = changeRematchNo + num;
@@ -194,6 +234,10 @@ public class Simulation {
         }
     }
     
+    /**
+     * Increments the amount the number of culled sumo will be changed by
+     * @param num either +/-1
+     */
     public void changeFreshSize(int num){
         int newFresh = changeFreshNo + num;
         if (newFresh + freshNo < generation.length + changeGenNo && newFresh + freshNo >= 0){
@@ -202,6 +246,9 @@ public class Simulation {
         }
     }
     
+    /**
+     * Prints the new settings to log on round end
+     */
     public void printNextSettings(){
         int size = generation.length;
         int rematches = rematchNo;

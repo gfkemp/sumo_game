@@ -34,10 +34,20 @@ public class WeightArray {
         valueDisplay = new JLabel("");
     }
     
+    /**
+     * Adds a new double[y][x] to ArrayList weights
+     * @param x number of input neurons
+     * @param y number of output neurons
+     */
     public void newLayer(int x, int y){
         weights.add(new double[y][x]);
     }
     
+    /**
+     * Returns layer from ArrayList weights
+     * @param num index of layer
+     * @return double[][] corresponding to layer
+     */
     public double[][] getLayer(int num){
         return (double[][]) weights.get(num);
     }
@@ -46,6 +56,11 @@ public class WeightArray {
         return weights.size();
     }
     
+    /**
+     * Gives a random value to every index in weights[layer][y][x]
+     * <p>
+     * Random number is between -1 and 1
+     */
     public void initWeights(){
         for (int i = 0; i < weights.size(); i++){
             
@@ -61,6 +76,11 @@ public class WeightArray {
         }
     }
     
+    /**
+     * Calls feedForward(inputs, layer, layer number) for each weight layer
+     * @param inputs a double[8] with input values for the neural network
+     * @return a double[2] of output values
+     */
     public double[] propagate(double[] inputs){
         double[] values = null;
         
@@ -93,6 +113,18 @@ public class WeightArray {
         return values;
     }
     
+    /**
+     * Passes input values through one layer of the neural network
+     * <p>
+     * 1. Creates a double[] 'values' with the same length as layer's output dimension
+     * 2. Assigns each values[i] to the output of sumDotProduct(inputs, layer[i], num)
+     *      (if it is the last layer, then it calls sigmoid() on all the values too)
+     * 3. It then returns values which is used as the input array for the next call of feeForward
+     * @param inputs a double[] of input values
+     * @param layer a double[output neurons][input neurons] of weight values
+     * @param num current layer index (for debugging)
+     * @return values, a double[]
+     */
     public double[] feedForward(double[] inputs, double[][] layer, int num){
         double[] values = new double[layer.length];
         
@@ -109,6 +141,10 @@ public class WeightArray {
         return values;
     }
     
+    /**
+     * Adds a string to the valuesText
+     * @param text string to be added
+     */
     public void addValuesText(String text){
         valuesText = valuesText + text;
     }
@@ -117,6 +153,11 @@ public class WeightArray {
         return valuesText;
     }
     
+    /**
+     * Adds a random value to every index in weights[layer][y][x]
+     * <p>
+     * random value is between -1/5 and 1/5
+     */
     public void mutateWeights(){
         Random r = new Random();
         
@@ -135,6 +176,7 @@ public class WeightArray {
         nameUpdate();
     }
     
+    /*
     public void printShape(){
         printNL();
         
@@ -163,8 +205,13 @@ public class WeightArray {
     
     public void printNL(){
         System.out.print("\n");
-    }
+    }*/
     
+    /**
+     * Sigmoid function, 1 / (1 + e^(-x))
+     * @param input mathematical input, x
+     * @return output value
+     */
     public double sigmoid(double input){
         
         input = 1 / (1 + Math.exp(-input));
@@ -172,6 +219,13 @@ public class WeightArray {
         return input;
     }
     
+    /**
+     * Sums the dot product of the input and weight arrays
+     * @param x input array, double[]
+     * @param w weight array, double[]
+     * @param layerNum the index of the current layer, for debugging
+     * @return double, sum of the dot product of x and w
+     */
     public double sumDotProduct(double[] x, double[] w, int layerNum){
         double output = 0;
         if (x.length != w.length) throw new IllegalArgumentException("input and weight arrays are mismatched " + x.length + ", " + w.length + " in layer " + layerNum);
@@ -183,6 +237,9 @@ public class WeightArray {
         return output;
     }
     
+    /**
+     * Adds a random character to the weight arrays name
+     */
     public void nameUpdate(){
         Random r = new Random();
         String alphabet = "abcdefghijklmnopqrztuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

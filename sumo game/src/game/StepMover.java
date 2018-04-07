@@ -46,12 +46,16 @@ public class StepMover implements StepListener {
     @Override
     public void preStep(StepEvent e) {}
     
+    /**
+     * Every tick calls stepMover() in Mode
+     * @param e tick
+     */
     @Override
     public void postStep(StepEvent e) {
         world.getMode().stepMover();
         //world.getMode().print("postStep, StepMover");
     }
-
+    
     void setBodies(Rikishi[] players, Dohyo dohyo) {
         this.player1 = players[0];
         this.player2 = players[1];

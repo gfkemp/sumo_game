@@ -21,6 +21,9 @@ public class LevelOne extends Mode {
         world.getGui().level("Level One: He's dead");
     }
     
+    /**
+     * Initialises level 2 and assigns it
+     */
     @Override
     public void newLevel(){
         LevelTwo levelTwo = new LevelTwo(world, "", "", this.players, this.dohyo);

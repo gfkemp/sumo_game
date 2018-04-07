@@ -54,12 +54,9 @@ public class GameWorld extends World {
         player.setLinearVelocity(new Vec2(0, 0));
     }
     
-    public void newSimMode(){
-        mode = null;
-        //mode = new SimMode(this, "two node", "", );
-        mode.initSimulation();
-    } 
-    
+    /** 
+     * Sets up the Menu Mode
+     */
     public void newMenu(){
         mode = new Menu(this, "");
         mode.initBodies(mode.getPlayer1Type(), mode.getPlayer2Type());

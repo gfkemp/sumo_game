@@ -31,6 +31,9 @@ public class SimMode extends Mode implements ActionListener{
         
     }
     
+    /**
+     * Initialises the simulation and simulation JFrames 
+     */
     @Override
     public void initSimulation(){
         logDisplay = new JFrame("log");
@@ -85,6 +88,11 @@ public class SimMode extends Mode implements ActionListener{
         simulation.runGen();
     }
     
+    /**
+     * Called by initSimulation(), refactoring for generating multiple jbuttons
+     * @param i index in buttons[]
+     * @param name name on the button
+     */
     public void button(int i, String name){
         buttons[i] = new JButton(name);
         settings.add(buttons[i]);
@@ -201,6 +209,11 @@ public class SimMode extends Mode implements ActionListener{
         addToLog("Player " + victor.getPlayerNum() + " wins!"); //score: " + players[0].getScore() + " - " + players[1].getScore());
     }
     
+    /**
+     * Occurs if neither player pushes the other out in the time given
+     * <p>
+     * Awards victory to the player that is closest to the centre of the ring - calls a draw if they are the same distance
+     */
     public void draw(){
         reset = true;
         
@@ -261,7 +274,11 @@ public class SimMode extends Mode implements ActionListener{
         player1Display.setVisible(false);
         player2Display.setVisible(false);
     }
-
+    
+    /**
+     * Monitors whether the buttons are pressed and changes the settings accordingly
+     * @param e Button pressed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (null != e.getActionCommand()) switch (e.getActionCommand()) {

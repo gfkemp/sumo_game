@@ -21,6 +21,9 @@ public class LevelThree extends Mode {
         world.getGui().level("Level Three: defensive");
     }
     
+    /**
+     * Initialises TheTower and assigns it
+     */
     @Override
     public void newLevel(){
         TheTower nextFloor = new TheTower(world, "", "", this.players, this.dohyo);

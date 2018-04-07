@@ -45,21 +45,21 @@ public class NNetwork {
         if (!name.equals("")) {setName(name);}
     }
     
-    public void initNet(String mode){
-        weights = new double[2][6];
-        for (int x= 0; x < weights.length; x++){
-            for (int y = 0; y < weights[x].length; y++){
-                weights[x][y] = (Math.random()*2) - 1;
-            }
-        }
-    }
-    
+    /**
+     * Sets the parameters of this NNetwork
+     * @param brain the player's Brain
+     * @param player the player's Rikishi
+     * @param opponent the opponent's Rikishi
+     */
     public void setParams(Brain brain, Rikishi player, Rikishi opponent){
         this.brain = brain;
         this.player = player;
         this.opponent = opponent;
     }
     
+    /**
+     * Mutates the weights in the WeightArray
+     */
     public void mutateNet(){
         weightArray.mutateWeights();
         /*for (int x= 0; x < weights.length; x++){
@@ -69,6 +69,20 @@ public class NNetwork {
         }*/
     }
     
+    /**
+     * Generates the values for the 8 node input layer
+     * <p>
+     * inputs[0] = Player's x position / 20;
+     * inputs[1] = Player's y position / 20;
+     * inputs[2] = Player's angle / (Math.PI)) - 1;
+     * inputs[3] = Player's velocity / 500;
+     * inputs[4] = Opponent's x position / 20;
+     * inputs[5] = Opponent's y position / 20;
+     * inputs[6] = Opponent's angle / (Math.PI)) - 1;
+     * inputs[7] = Opponent's velocity /500;
+     * 
+     * All normalised to be between 0 and 1
+     */
     public void updateInputs(){ //update and normalize input
         inputs[0] = (player.getPosition().x) / 20;
         inputs[1] = (player.getPosition().y) / 20;
@@ -80,6 +94,11 @@ public class NNetwork {
         inputs[7] = (opponent.getLinearVelocity().lengthSquared())/500;
     }
     
+    /**
+     * Passes inputs into the WeightArray to generate values for the moveKeys
+     * @param keys last tick's moveKeys
+     * @return generated moveKeys
+     */
     public int[] forwardPass(int[] keys){
         updateInputs();
         
@@ -108,6 +127,11 @@ public class NNetwork {
         return keys;
     }
     
+    /*
+     * Sigmoid function: 1 / (1 + e^(-x))
+     * @param input input value
+     * @return output value
+     *
     public double sigmoid(double input){
         
         input = 1 / (1 + Math.exp(-input));
@@ -124,7 +148,7 @@ public class NNetwork {
         }
         
         return output;
-    }
+    }*/
     
     public int getScore(){
         return score;
@@ -134,6 +158,10 @@ public class NNetwork {
         this.score = score;
     }
     
+    /**
+     * Increases score
+     * @param inc amount to increase score by
+     */
     public void incScore(int inc){
         this.score = this.score + inc;
     }

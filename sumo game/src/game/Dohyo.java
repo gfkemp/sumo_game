@@ -36,6 +36,7 @@ public class Dohyo extends DynamicBody {
     
     /**
     * Displays the logo image on the ring
+    * @param world the GameWorld
     */
     public void displayLogo(World world){
         logo = new DynamicBody(world);

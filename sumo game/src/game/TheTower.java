@@ -37,6 +37,9 @@ public class TheTower extends Mode {
         running = true;
     }
     
+    /**
+     * Creates the next floor of the tower and assigns it
+     */
     @Override
     public void newLevel(){
         TheTower nextFloor = new TheTower(world, "", "", this.players, this.dohyo);
